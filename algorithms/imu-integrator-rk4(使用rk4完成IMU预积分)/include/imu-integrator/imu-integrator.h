@@ -2,7 +2,6 @@
 #define IMU_INTEGRATOR_IMU_INTEGRATOR_H_
 
 #include <Eigen/Core>
-
 #include <maplab-common/pose_types.h>
 
 #include "imu-integrator/common.h"
@@ -25,28 +24,28 @@ class ImuIntegratorRK4 {
       const Eigen::Matrix<ScalarType, 2 * kImuReadingSize, 1>&
           debiased_imu_readings,
       const ScalarType delta_time_seconds,
-      Eigen::Matrix<ScalarType, kStateSize, 1>* next_state) const {
-    Eigen::Matrix<ScalarType, kErrorStateSize,
-                  kErrorStateSize>* null_pointer = NULL;
+      Eigen::Matrix<ScalarType, kStateSize, 1>* next_state)
+      const {  // 仅仅计算状态,输入量为current_state当前状态，debiased_imu_readings去偏置后的IMU数据，delta_time_seconds时间间隔，next_state下一时刻的状态
+    Eigen::Matrix<ScalarType, kErrorStateSize, kErrorStateSize>* null_pointer =
+        NULL;
     integrate(
         current_state, debiased_imu_readings, delta_time_seconds, next_state,
-        null_pointer, null_pointer);
+        null_pointer, null_pointer);  // 调用integrate函数
   }
 
   /// The (next_phi, next_cov) calculation is optional and can be disabled by
   /// passing two nullptr.
   template <typename ScalarType>
   inline void integrate(
-      const Eigen::Matrix<ScalarType, kStateSize, 1, 0,
-                          kStateSize, 1>& current_state,
+      const Eigen::Matrix<ScalarType, kStateSize, 1, 0, kStateSize, 1>&
+          current_state,
       const Eigen::Matrix<ScalarType, 2 * kImuReadingSize, 1>&
           debiased_imu_readings,
       const ScalarType delta_time_seconds,
       Eigen::Matrix<ScalarType, kStateSize, 1>* next_state,
-      Eigen::Matrix<ScalarType, kErrorStateSize,
-                    kErrorStateSize>* next_phi,
-      Eigen::Matrix<ScalarType, kErrorStateSize,
-                    kErrorStateSize>* next_cov) const;
+      Eigen::Matrix<ScalarType, kErrorStateSize, kErrorStateSize>* next_phi,
+      Eigen::Matrix<ScalarType, kErrorStateSize, kErrorStateSize>* next_cov)
+      const;
 
  private:
   template <typename ScalarType>
