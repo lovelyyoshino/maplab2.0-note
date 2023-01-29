@@ -11,7 +11,10 @@
 #include "vi-map/sensor-utils.h"
 #include "vi-map/vertex.h"
 #include "vi-map/vi-map-serialization.h"
-
+/**
+ * @brief 主函数，包含了激光视觉imu的融合
+ *
+ */
 DEFINE_bool(
     disable_consistency_check, false,
     "If enabled, no consistency checks are run.");
@@ -2253,9 +2256,7 @@ unsigned int VIMap::getVertexCountInMission(
   unsigned int vertex_count = 0;
   do {
     ++vertex_count;
-  } while (getNextVertex(
-      current_vertex_id,
-      &current_vertex_id));
+  } while (getNextVertex(current_vertex_id, &current_vertex_id));
   return vertex_count;
 }
 
@@ -2310,9 +2311,7 @@ void VIMap::getAllVertexIdsInMissionAlongGraph(
 
   do {
     vertices->push_back(current_vertex_id);
-  } while (getNextVertex(
-      current_vertex_id,
-      &current_vertex_id));
+  } while (getNextVertex(current_vertex_id, &current_vertex_id));
 }
 
 void VIMap::getAllVertexIdsAlongGraphsSortedByTimestamp(
@@ -2381,9 +2380,7 @@ void VIMap::getAllEdgeIdsInMissionAlongGraph(
     edges->erase(
         std::remove_if(edges->begin(), edges->end(), is_edge_type_different),
         edges->end());
-  } while (getNextVertex(
-      current_vertex_id,
-      &current_vertex_id));
+  } while (getNextVertex(current_vertex_id, &current_vertex_id));
 }
 
 bool VIMap::hasEdgesOfType(pose_graph::Edge::EdgeType edge_type) const {
